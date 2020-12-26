@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import (
+    settings,
+)  # settings import 시에는 from . import settings 가 아니라 왼쪽과 같이 해야 함
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

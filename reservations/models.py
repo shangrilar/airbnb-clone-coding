@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from core import models as core_models
 
 # Create your models here.
@@ -25,3 +26,13 @@ class Reservation(core_models.TimeStampedModel):
 
     def __str__(self):
         return f"{self.room} - {self.check_in}"
+
+    def check_in_progress(self):
+        now = timezone.now().date()
+
+        if now > self.check_out:
+            return "Finished"
+        elif now >= self.check_in:
+            return "In Progress"
+        else:
+            return "not start yet"
